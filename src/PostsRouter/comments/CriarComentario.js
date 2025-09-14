@@ -1,13 +1,13 @@
 import { randomUUID } from "node:crypto"
-import { sql } from "../../db.js"
+import { sql } from "../../../db.js"
 import admin from 'firebase-admin'; // Importe o admin novamente para referência
-import { app as firebaseApp } from '../util/firebase.js'; // Importe o app do arquivo firebase.js
+import { app as firebaseApp } from '../../util/firebase.js'; // Importe o app do arquivo firebase.js
 const firebaseDB = admin.firestore();
 
 export async function CriarComentario(server, opts) {
-    server.post('/createComent', async (request, reply) => {
+    server.post('/createComent/:id', async (request, reply) => {
 
-        const post_id = request.query.post_id
+        const post_id = request.params.id
         const user_id = request.user.id;
 
         const postRef = firebaseDB.collection('Posts').doc(post_id);
@@ -45,21 +45,23 @@ export async function CriarComentario(server, opts) {
                 return reply.status(400).send({ error: "Comentário invalido" })
             }
 
+            async function CriarComentarioFirestore(userId) {
+                await firebaseDB.collection('Posts').doc(post_id).collection('Comments').doc(commentId).set(
+                    {
+                        UserId: user_id,
+                        Comment: comments[0],
+                        CreatedAt: new Date().toISOString(),
+                    }
+                );
+            }
 
-            firebaseDB.collection('Posts').doc(post_id).collection('Comments').doc(commentId).set(
-                {
-                    UserId: user_id,
-                    Comment: comments[0],
-                    CreatedAt: new Date().toISOString(),
-                    Likes: 0
-                }
-            )
-                .then(() => {
-                    console.log('Documento adicionado com sucesso!');
-                })
-                .catch((error) => {
-                    console.error('Erro ao adicionar documento:', error);
-                });
+            try {
+                await CriarComentarioFirestore(user_id);
+                console.log('Documento adicionado com sucesso!');
+            } catch (error) {
+                console.error('Erro ao adicionar documento:', error);
+                return reply.status(500).send({ error: "Erro ao criar comentário" });
+            }
 
             return reply.status(201).send({ message: "Comentario criado com sucesso" })
 

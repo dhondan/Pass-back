@@ -1,9 +1,9 @@
-import { sql } from "../../db.js";
+import { sql } from "../../../db.js";
 
 export async function DeletarPost(server, opts) {
     server.delete('/delete/:id', async (request, reply) => {
         try {
-            const { id } = request.params;
+            const id = request.query.id;
             console.log(id)
 
             const [post] = await sql`

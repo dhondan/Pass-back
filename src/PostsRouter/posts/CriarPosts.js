@@ -1,11 +1,11 @@
 import { randomUUID } from "node:crypto"
-import { sql } from "../../db.js"
+import { sql } from "../../../db.js"
 import admin from 'firebase-admin'; // Importe o admin novamente para referência
-import { app as firebaseApp } from '../util/firebase.js'; // Importe o app do arquivo firebase.js
+import { app as firebaseApp } from '../../util/firebase.js'; // Importe o app do arquivo firebase.js
 const firebaseDB = admin.firestore();
 
 export async function CriarPosts(server, opts) {
-  server.post('/create', async (request, reply) => {
+  server.post('/post/create', async (request, reply) => {
     const user_id = request.user.id;
 
     try {

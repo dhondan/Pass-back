@@ -1,9 +1,9 @@
 // lista de imports
 import Fastify from 'fastify'
 import { DatabaseMemory } from './database-memory.js'
-import { CriarPosts} from './src/PostsRouter/CriarPosts.js'
-import { EditarPost } from './src/PostsRouter/EditarPost.js'
-import { DeletarPost } from './src/PostsRouter/DeletarPost.js'
+import { CriarPosts } from './src/PostsRouter/posts/CriarPosts.js'
+import { EditarPost } from './src/PostsRouter/posts/EditarPost.js'
+import { DeletarPost } from './src/PostsRouter/posts/DeletarPost.js'
 import { CriarUser } from './src/UsersRouter/CriarUser.js'
 import { Login } from './src/UsersRouter/Login.js'
 import { TokenValidation } from './src/UsersRouter/TokenValidation.js'
@@ -12,10 +12,16 @@ import { GetUserInfo } from './src/UsersRouter/GetUserInfo.js'
 import { EditUser } from './src/UsersRouter/EditUser.js'
 import { fastifyCookie } from "@fastify/cookie"
 import { Logout } from './src/UsersRouter/Sair.js'
-import {GetUser} from './src/UsersRouter/GetUser.js'
+import { GetUser } from './src/UsersRouter/GetUser.js'
 import { ListarPosts } from './src/PublicRouter/ListarPosts.js'
-import { CriarComentario } from './src/PostsRouter/CriarComentario.js'
+import { CriarComentario } from './src/PostsRouter/comments/CriarComentario.js'
 import { ListarComentarios } from './src/PublicRouter/ListarComentarios.js'
+
+//posts
+import { registerView } from './src/PostsRouter/functions/registerView.js'
+import { LikePost } from './src/PostsRouter/posts/LikePost.js'
+//comments
+import { LikeComentario } from './src/PostsRouter/comments/LikeComentario.js'
 
 
 import cors from '@fastify/cors'
@@ -65,7 +71,6 @@ server.addHook("preHandler", async (request, reply) => {
     // }
 
     const token = request.cookies?.token; // pega token do 
-    console.log(token)
 
     try {
         const token_decode = server.jwt.verify(token);
@@ -77,8 +82,8 @@ server.addHook("preHandler", async (request, reply) => {
 
 
 server.register(cors, {
-    origin: 'http://localhost:3000', 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 })
 
@@ -94,12 +99,20 @@ server.register(EditarPost, { db })
 server.register(DeletarPost, { db })
 // Pegar informações do post em especifico
 server.register(GetPostInfo, { db })
-//criar comentario
-server.register(CriarComentario, { db })
 //listar comentarios
 server.register(ListarComentarios, { db })
 
 
+//funções posts
+//registrar visualização
+server.register(registerView, { db })
+//like post
+server.register(LikePost, { db })
+//funções comments
+//like comentario
+server.register(LikeComentario, { db })
+//criar comentario
+server.register(CriarComentario, { db })
 
 
 

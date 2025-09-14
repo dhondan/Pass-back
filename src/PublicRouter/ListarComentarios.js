@@ -5,7 +5,8 @@ const firebaseDB = admin.firestore();
 export async function ListarComentarios(server, opts) {
   server.get('/public/comentarios', async (request, reply) => {
     try {
-      const postId = request.query.id;
+      const postId = request.params.id;
+      console.log(postId)
       if (!postId) {
         return reply.status(400).send({ error: "ID do post é obrigatório" });
       }
