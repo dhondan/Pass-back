@@ -23,7 +23,7 @@ import { LikePost } from './controls/PostsRouter/posts/LikePost.js'
 import { getLikePost } from './controls/PublicRouter/GetLikePost.js'
 //comments
 import { LikeComentario } from './controls/PostsRouter/comments/LikeComentario.js'
-import { getpublicuser } from './controls/PublicRouter/GetpublicUser.js'
+import { GetPublicUser } from './controls/PublicRouter/GetPublicUser.js'
 
 
 
@@ -119,7 +119,7 @@ server.register(CriarComentario)
 //listar respostas de comentarios
 server.register(ListarRespostas)
 //pegar informações públicas do usuario
-server.register(getpublicuser)
+server.register(GetPublicUser)
 
 
 

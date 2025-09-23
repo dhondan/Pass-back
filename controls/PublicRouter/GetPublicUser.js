@@ -1,6 +1,6 @@
 import { sql } from "../../db.js";
 
-export async function getpublicuser(server, opts) {
+export async function GetPublicUser(server, opts) {
 
    server.get('/public/getpublicuser/:id', async (request, reply) => {
     const id = request.params.id
