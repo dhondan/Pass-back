@@ -1,5 +1,4 @@
-import admin, { initializeApp, credential as _credential } from "firebase-admin";
-
+var admin = require("firebase-admin");
 
 const serviceAccount = JSON.parse(process.env.FIREBASE_CONFIG);
 
