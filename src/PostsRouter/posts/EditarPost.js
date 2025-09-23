@@ -1,7 +1,7 @@
 import { sql } from "../../../db.js";
 
 export async function EditarPost(server, opts) {
-    server.put('/edit/:id', async (request, reply) => {
+    server.put('/post/edit/:id', async (request, reply) => {
         try {
             const { id } = request.params;
             console.log(id)

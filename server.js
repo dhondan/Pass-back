@@ -75,10 +75,11 @@ server.addHook("preHandler", async (request, reply) => {
     // }
 
     const token = request.cookies?.token; // pega token do 
-
+console.log(token)
     try {
         const token_decode = server.jwt.verify(token);
         request.user = token_decode;
+        console.log(request.user)
     } catch (err) {
         return reply.status(401).send({ error: err });
     }
@@ -94,52 +95,52 @@ server.register(cors, {
 // Registrar rotas de posts > Tudo que está dentro de src/postsRotas será registrado aqui
 
 // Criar post
-server.register(CriarPosts, { db })
+server.register(CriarPosts)
 // Listar posts
-server.register(ListarPosts, { db })
+server.register(ListarPosts)
 // Editar post
-server.register(EditarPost, { db })
+server.register(EditarPost)
 // Excluir post
-server.register(DeletarPost, { db })
+server.register(DeletarPost)
 // Pegar informações do post em especifico
-server.register(GetPostInfo, { db })
+server.register(GetPostInfo)
 //listar comentarios
-server.register(ListarComentarios, { db })
+server.register(ListarComentarios)
 
 
 //funções posts
 //registrar visualização
-server.register(registerView, { db })
+server.register(registerView)
 //get quantidade de likes de um post
-server.register(getLikePost, { db })
+server.register(getLikePost)
 //like post
-server.register(LikePost, { db })
+server.register(LikePost)
 //funções comments
 //like comentario
-server.register(LikeComentario, { db })
+server.register(LikeComentario)
 //criar comentario
-server.register(CriarComentario, { db })
+server.register(CriarComentario)
 //listar respostas de comentarios
-server.register(ListarRespostas, { db })
+server.register(ListarRespostas)
 //pegar informações públicas do usuario
-server.register(getpublicuser, { db })
+server.register(getpublicuser)
 
 
 
 // Criar User
-server.register(CriarUser, { db })
+server.register(CriarUser)
 // Editar user
-server.register(EditUser, { db })
+server.register(EditUser)
 // Fazer login
-server.register(Login, { db })
+server.register(Login)
 //valida informações (Sem uso)
-server.register(TokenValidation, { db })
+server.register(TokenValidation)
 //pega informações de um user em especifico
-server.register(GetUserInfo, { db })
+server.register(GetUserInfo)
 //sair da conta
-server.register(Logout, { db })
+server.register(Logout)
 //Pega informações públicas do usuario
-server.register(GetUser, { db })
+server.register(GetUser)
 
 
 

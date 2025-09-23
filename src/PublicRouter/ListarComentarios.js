@@ -25,7 +25,7 @@ export async function ListarComentarios(server, opts) {
       const commentsSnap = await commentsRef.get();
 
       if (commentsSnap.empty) {
-        return reply.status(404).send({ error: "Nenhum comentário encontrado para este post" });
+        return reply.status(201).send({ Menssage: "Nenhum comentário encontrado para este post" });
       }
 
       // Mapear comentários com possíveis respostas

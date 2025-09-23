@@ -8,6 +8,8 @@ export async function CriarPosts(server, opts) {
   server.post('/post/create', async (request, reply) => {
     const user_id = request.user.id;
 
+    console.log(user_id)
+
     try {
       const {
         title,

@@ -42,10 +42,10 @@ export async function CriarUser(server, opts) {
 
             return reply
                 .setCookie('token', token, {
-                    httpOnly: true,
-                    secure: process.env.NODE_ENV === 'production',
-                    sameSite: 'strict',
-                    maxAge: 60 * 60,
+                    httpOnly: true, // não acessível via JS
+                    secure: process.env.NODE_ENV === 'production', // só HTTPS em produção
+                    sameSite: 'lax', // permite requisições do mesmo site e links externos
+                    maxAge: 60 * 60 * 24 * 7, // 7 dias
                     path: '/',
                 })
                 .status(201)
@@ -53,7 +53,7 @@ export async function CriarUser(server, opts) {
                     message: "Usuário criado com sucesso!",
                     user: { id, name, email },
                 });
-
+                
         } catch (err) {
             console.error(err);
             return reply.status(500).send({ error: "Erro ao criar usuário." });
