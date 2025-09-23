@@ -32,9 +32,6 @@ import fastifyJwt from '@fastify/jwt'
 import rateLimit from '@fastify/rate-limit'
 
 const server = Fastify()
-const db = new DatabaseMemory()
-// Mock banco de dados em memória
-export { db }
 
 server.register(fastifyCookie);
 

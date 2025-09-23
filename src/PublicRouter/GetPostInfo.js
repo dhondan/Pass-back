@@ -2,6 +2,8 @@ import { sql } from "../../db.js";
 
 export async function GetPostInfo(server, opts) {
     server.get('/public/getpostinfo', async (request, reply) => {
+
+            console.log(server)
         try {
             const postId = request.query.id;
 
