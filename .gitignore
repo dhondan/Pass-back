@@ -1,4 +1,4 @@
 node_modules
 .env
-src/util/firebaseAdminSDK.json
+controls/util/firebaseAdminSDK.json
 .DS_Store
