@@ -35,7 +35,7 @@ export async function Login(server, opts) {
         .status(200)
         .send({
           message: "Login feito com sucesso",
-          user: { id: user.id, email: user.email },
+          user: { id: user.id},
         });
 
       console.log("✅ Login realizado com sucesso:", email);

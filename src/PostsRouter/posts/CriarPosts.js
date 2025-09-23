@@ -44,7 +44,7 @@ export async function CriarPosts(server, opts) {
       const post_id = randomUUID()
 
       // Checa condição de criação
-      const podeCriar = paragraphs.every(p => p === null || p.length < 256)
+      const podeCriar = paragraphs.every(p => p === null || p.length < 650)
 
       if (!podeCriar) {
         return reply.status(400).send({ error: "Um ou mais parágrafos são inválidos." })

@@ -16,12 +16,16 @@ import { GetUser } from './src/UsersRouter/GetUser.js'
 import { ListarPosts } from './src/PublicRouter/ListarPosts.js'
 import { CriarComentario } from './src/PostsRouter/comments/CriarComentario.js'
 import { ListarComentarios } from './src/PublicRouter/ListarComentarios.js'
+import { ListarRespostas } from './src/PublicRouter/ListarRespostasComentarios.js'
 
 //posts
 import { registerView } from './src/PostsRouter/functions/registerView.js'
 import { LikePost } from './src/PostsRouter/posts/LikePost.js'
+import { getLikePost } from './src/PublicRouter/GetLikePost.js'
 //comments
 import { LikeComentario } from './src/PostsRouter/comments/LikeComentario.js'
+import { getpublicuser } from './src/PublicRouter/GetpublicUser.js'
+
 
 
 import cors from '@fastify/cors'
@@ -106,6 +110,8 @@ server.register(ListarComentarios, { db })
 //funções posts
 //registrar visualização
 server.register(registerView, { db })
+//get quantidade de likes de um post
+server.register(getLikePost, { db })
 //like post
 server.register(LikePost, { db })
 //funções comments
@@ -113,6 +119,10 @@ server.register(LikePost, { db })
 server.register(LikeComentario, { db })
 //criar comentario
 server.register(CriarComentario, { db })
+//listar respostas de comentarios
+server.register(ListarRespostas, { db })
+//pegar informações públicas do usuario
+server.register(getpublicuser, { db })
 
 
 

@@ -1,63 +1,62 @@
-import { randomUUID } from "node:crypto"
+import { randomUUID } from "node:crypto";
 import { sql } from "../../db.js";
-import fastifyJwt from "@fastify/jwt";
-import fastifyCookie from "@fastify/cookie";
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
 
 export async function CriarUser(server, opts) {
-
     server.post('/createUser', async (request, reply) => {
-        const {
-            name,
-            email,
-            password,
-            passwordConfirmation
-        } = request.body;
+        const { name, email, password, passwordConfirmation } = request.body;
 
+        // Validações
+        if (!name || name.trim().length < 3) {
+            return reply.status(400).send({ error: "O nome deve ter pelo menos 3 caracteres." });
+        }
 
-        if (password !== passwordConfirmation && name == null || undefined && email == null || undefined) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email)) {
+            return reply.status(400).send({ error: "Email inválido." });
+        }
+
+        if (!password || !passwordConfirmation) {
+            return reply.status(400).send({ error: "Senha e confirmação são obrigatórias." });
+        }
+
+        if (password !== passwordConfirmation) {
             return reply.status(400).send({ error: "As senhas não coincidem." });
         }
 
-        const newpassword = bcrypt.hashSync(password, 10);
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+        if (!passwordRegex.test(password)) {
+            return reply.status(400).send({ error: "A senha deve ter pelo menos 8 caracteres, incluindo uma letra e um número." });
+        }
+
+        const newPassword = bcrypt.hashSync(password, 10);
         const id = randomUUID();
 
         try {
-
             await sql`
-            INSERT INTO users (id, name, email, password)
-            VALUES (${id}, ${name}, ${email}, ${newpassword})
-        `;
+                INSERT INTO users (id, name, email, password)
+                VALUES (${id}, ${name}, ${email}, ${newPassword})
+            `;
 
-            const token = server.jwt.sign(
-                { id },   
-                { expiresIn: "1h" } 
-            );
+            const token = server.jwt.sign({ id }, { expiresIn: "1h" });
 
-             reply
+            return reply
                 .setCookie('token', token, {
                     httpOnly: true,
-                    secure: process.env.NODE_ENV === 'production', // só HTTPS em produção
+                    secure: process.env.NODE_ENV === 'production',
                     sameSite: 'strict',
-                    maxAge: 60 * 60, // 1 hora em segundos
-                    path: '/',       // disponível em todo o domínio
+                    maxAge: 60 * 60,
+                    path: '/',
                 })
                 .status(201)
                 .send({
                     message: "Usuário criado com sucesso!",
-                    user: { id, name, email } // não retorna token
+                    user: { id, name, email },
                 });
 
-            return reply.status(201).send({
-                message: "Usuário criado com sucesso!",
-                user: { id },
-                token
-            });
-
         } catch (err) {
-            console.log(err)
+            console.error(err);
+            return reply.status(500).send({ error: "Erro ao criar usuário." });
         }
-
-        return reply.status(201).send({ message: "Usuário criado com sucesso!", id });
-    })
+    });
 }

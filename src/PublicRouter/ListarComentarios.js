@@ -1,12 +1,11 @@
-import admin from 'firebase-admin'; // Importe o admin novamente para referência
-import { app as firebaseApp } from '../util/firebase.js'; // Importe o app do arquivo firebase.js
+import admin from 'firebase-admin';
+import { app as firebaseApp } from '../util/firebase.js'; 
 const firebaseDB = admin.firestore();
 
 export async function ListarComentarios(server, opts) {
-  server.get('/public/comentarios', async (request, reply) => {
+  server.get('/public/comentarios/:postId', async (request, reply) => {
     try {
-      const postId = request.params.id;
-      console.log(postId)
+      const postId = request.params.postId;
       if (!postId) {
         return reply.status(400).send({ error: "ID do post é obrigatório" });
       }
@@ -18,18 +17,46 @@ export async function ListarComentarios(server, opts) {
         return reply.status(404).send({ error: "Post não encontrado" });
       }
 
-      const commentsRef = postRef.collection('Comments');
+      // 🔹 Buscar comentários ordenados pela data
+      const commentsRef = postRef
+        .collection('Comments')
+        .orderBy('CreatedAt', 'desc'); // mais novos primeiro
+
       const commentsSnap = await commentsRef.get();
 
       if (commentsSnap.empty) {
         return reply.status(404).send({ error: "Nenhum comentário encontrado para este post" });
       }
 
-      return reply.send({ commentsSnap: commentsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })) });
+      // Mapear comentários com possíveis respostas
+      const comments = await Promise.all(
+        commentsSnap.docs.map(async (doc) => {
+          const data = doc.data();
+
+          // 🔹 Buscar respostas ordenadas também
+          const repliesRef = doc.ref
+            .collection('Replies')
+            .orderBy('CreatedAt', 'asc'); // mais antigas primeiro nas respostas
+
+          const repliesSnap = await repliesRef.get();
+
+          const replies = repliesSnap.empty
+            ? []
+            : repliesSnap.docs.map(r => ({ id: r.id, ...r.data() }));
+
+          return {
+            id: doc.id,
+            ...data,
+            replies,
+          };
+        })
+      );
+
+      return reply.send({ comments });
 
     } catch (err) {
       console.error("Erro ao buscar comentário:", err);
-      return reply.status(500).send({ error: "Erro interno do servidor" });
+      return reply.status(500).send({ error: "Não tem comentarios" });
     }
   });
 }
