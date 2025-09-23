@@ -83,7 +83,7 @@ console.log(token)
 
 
 server.register(cors, {
-    origin: 'http://localhost:3000',
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 })
@@ -142,6 +142,6 @@ server.register(GetUser)
 
 // Iniciar o servidor
 
-server.listen({ port: 3333 })
+server.listen({ port: process.env.PORT || 3333 })
 
 
