@@ -1,6 +1,5 @@
 // lista de imports
 import Fastify from 'fastify'
-import { DatabaseMemory } from './database-memory.js'
 import { CriarPosts } from './src/PostsRouter/posts/CriarPosts.js'
 import { EditarPost } from './src/PostsRouter/posts/EditarPost.js'
 import { DeletarPost } from './src/PostsRouter/posts/DeletarPost.js'
