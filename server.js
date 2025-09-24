@@ -142,6 +142,6 @@ server.register(GetUser)
 
 // Iniciar o servidor
 
-server.listen({ port: process.env.PORT || 3333 })
+server.listen({ host: process.env.HOST || '0.0.0.0',   port: process.env.PORT || 3333 })
 
 
