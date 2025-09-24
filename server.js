@@ -84,7 +84,6 @@ console.log(token)
 
 server.register(cors, {
     origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 })
 
