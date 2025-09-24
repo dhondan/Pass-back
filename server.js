@@ -83,8 +83,8 @@ console.log(token)
 
 
 server.register(cors, {
-    origin: '*',
-    credentials: true,
+  origin: ["http://localhost:3000", "https://meusite.com"],
+  credentials: true,
 })
 
 // Registrar rotas de posts > Tudo que está dentro de src/postsRotas será registrado aqui
