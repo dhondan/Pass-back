@@ -27,7 +27,7 @@ export async function Login(server, opts) {
       reply
         .setCookie("token", token, {
           httpOnly: true,
-          secure: false,   // ⚡ em localhost sempre false
+          secure: false,  
           sameSite: "lax",
           maxAge: 60 * 60,
           path: "/",

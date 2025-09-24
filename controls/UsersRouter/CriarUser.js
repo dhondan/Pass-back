@@ -42,10 +42,10 @@ export async function CriarUser(server, opts) {
 
             return reply
                 .setCookie('token', token, {
-                    httpOnly: true, // não acessível via JS
-                    secure: process.env.NODE_ENV === 'production', // só HTTPS em produção
-                    sameSite: 'lax', // permite requisições do mesmo site e links externos
-                    maxAge: 60 * 60 * 24 * 7, // 7 dias
+                    httpOnly: true, 
+                    secure: false, // só HTTPS em produção
+                    sameSite: 'lax', 
+                    maxAge: 60 * 60 * 24 * 7, 
                     path: '/',
                 })
                 .status(201)

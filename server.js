@@ -83,7 +83,7 @@ console.log(token)
 
 
 server.register(cors, {
-  origin: ["http://localhost:3000", "https://meusite.com"],
+  origin: "http://localhost:3000",
   credentials: true,
 })
 
