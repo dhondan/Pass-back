@@ -24,18 +24,18 @@ export async function Login(server, opts) {
 
       const token = server.jwt.sign({ id: user.id }, { expiresIn: "1h" });
 
-      reply
+      return reply
         .setCookie("token", token, {
           httpOnly: true,
-          secure: false,  
-          sameSite: "lax",
-          maxAge: 60 * 60,
+          secure: true,               // ✅ só funciona em HTTPS
+          sameSite: "none",           // ❌ se for "lax" ou "strict", o cookie não vai entre domínios
+          maxAge: 60 * 60,            // 1h
           path: "/",
         })
         .status(200)
         .send({
           message: "Login feito com sucesso",
-          user: { id: user.id},
+          user: { id: user.id },
         });
 
       console.log("✅ Login realizado com sucesso:", email);

@@ -41,19 +41,19 @@ export async function CriarUser(server, opts) {
             const token = server.jwt.sign({ id }, { expiresIn: "1h" });
 
             return reply
-                .setCookie('token', token, {
-                    httpOnly: true, 
-                    secure: false, // só HTTPS em produção
-                    sameSite: 'lax', 
-                    maxAge: 60 * 60 * 24 * 7, 
-                    path: '/',
+                .setCookie("token", token, {
+                    httpOnly: true,
+                    secure: true,               // ✅ só funciona em HTTPS
+                    sameSite: "none",           // ❌ se for "lax" ou "strict", o cookie não vai entre domínios
+                    maxAge: 60 * 60,            // 1h
+                    path: "/",
                 })
-                .status(201)
+                .status(200)
                 .send({
-                    message: "Usuário criado com sucesso!",
-                    user: { id, name, email },
+                    message: "Login feito com sucesso",
+                    user: { id: user.id },
                 });
-                
+
         } catch (err) {
             console.error(err);
             return reply.status(500).send({ error: "Erro ao criar usuário." });
