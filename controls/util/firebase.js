@@ -1,7 +1,7 @@
 import admin from "firebase-admin";
 
 // Pega a configuração do Firebase a partir da variável de ambiente
-const serviceAccount = JSON.parse(process.env.FIREBASE_CONFIG || "{}");
+const serviceAccount = JSON.parse(process.env.FIREBASE_CONFIG);
 
 // Inicializa o app do Firebase
 admin.initializeApp({
