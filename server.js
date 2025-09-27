@@ -83,7 +83,7 @@ console.log(token)
 
 
 server.register(cors, {
-  origin: "http://localhost:3000",
+  origin: process.env.ROTA || "http://localhost:3000",
   credentials: true,
 })
 
