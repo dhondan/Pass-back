@@ -1,6 +1,8 @@
 import { randomUUID } from "node:crypto";
 import { sql } from "../../db.js";
 import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export async function CriarUser(server, opts) {
     server.post('/createUser', async (request, reply) => {
@@ -32,6 +34,8 @@ export async function CriarUser(server, opts) {
         const newPassword = bcrypt.hashSync(password, 10);
         const id = randomUUID();
 
+          const isdev = process.env.DEV === "true";
+
         try {
             await sql`
                 INSERT INTO users (id, name, email, password)
@@ -42,16 +46,16 @@ export async function CriarUser(server, opts) {
 
             return reply
                 .setCookie("token", token, {
-                    httpOnly: true,
-                    secure: true,               // ✅ só funciona em HTTPS
-                    sameSite: "none",           // ❌ se for "lax" ou "strict", o cookie não vai entre domínios
-                    maxAge: 60 * 60,            // 1h
+                    httpOnly: false,
+                    secure: false,               
+                   sameSite: isdev ? 'lex' : "none",      
+                    maxAge: 60 * 60, 
                     path: "/",
                 })
                 .status(200)
                 .send({
                     message: "Login feito com sucesso",
-                    user: { id: user.id },
+                    user: { id: id },
                 });
 
         } catch (err) {
