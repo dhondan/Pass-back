@@ -5,7 +5,6 @@ import { EditarPost } from './controls/PostsRouter/posts/EditarPost.js'
 import { DeletarPost } from './controls/PostsRouter/posts/DeletarPost.js'
 import { CriarUser } from './controls/UsersRouter/CriarUser.js'
 import { Login } from './controls/UsersRouter/Login.js'
-import { TokenValidation } from './controls/UsersRouter/TokenValidation.js'
 import { GetPostInfo } from './controls/PublicRouter/GetPostInfo.js'
 import { GetUserInfo } from './controls/UsersRouter/GetUserInfo.js'
 import { EditUser } from './controls/UsersRouter/EditUser.js'
@@ -16,6 +15,7 @@ import { ListarPosts } from './controls/PublicRouter/ListarPosts.js'
 import { CriarComentario } from './controls/PostsRouter/comments/CriarComentario.js'
 import { ListarComentarios } from './controls/PublicRouter/ListarComentarios.js'
 import { ListarRespostas } from './controls/PublicRouter/ListarRespostasComentarios.js'
+import { TokenValidation } from './controls/UsersRouter/TokenValidation.js'
 
 //posts
 import { registerView } from './controls/PostsRouter/functions/registerView.js'
@@ -102,9 +102,11 @@ server.register(DeletarPost)
 server.register(GetPostInfo)
 //listar comentarios
 server.register(ListarComentarios)
-
+//valida token
+server.register(TokenValidation)
 
 //funções posts
+
 //registrar visualização
 server.register(registerView)
 //get quantidade de likes de um post
@@ -130,8 +132,6 @@ server.register(EditUser)
 // Fazer login
 server.register(Login)
 //valida informações (Sem uso)
-server.register(TokenValidation)
-//pega informações de um user em especifico
 server.register(GetUserInfo)
 //sair da conta
 server.register(Logout)
