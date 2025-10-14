@@ -36,7 +36,8 @@ export async function Login(server, opts) {
           httpOnly: true,
           secure: !isdev,               // ✅ só funciona em HTTPS
           sameSite: isdev ? 'lax' : "lax",           // ❌ se for "lax" ou "strict", o cookie não vai entre domínios
-          maxAge: 60 * 60,            // 1h
+          maxAge: 60 * 60,      
+          domain: '.animepass.vercel.app',      // 1h
           path: "/",
         })
         .status(200)

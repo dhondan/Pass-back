@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import { sql } from "../../db.js";
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
+import { Domain } from "node:domain";
 dotenv.config();
 
 export async function CriarUser(server, opts) {
@@ -36,6 +37,8 @@ export async function CriarUser(server, opts) {
 
         const isdev = process.env.DEV === "true";
 
+        console.log(isdev + " variavel de ambiente")
+
         try {
             await sql`
                 INSERT INTO users (id, name, email, password)
@@ -48,8 +51,9 @@ export async function CriarUser(server, opts) {
                 .setCookie("token", token, {
                     httpOnly: true,
                     secure: !isdev,               // ✅ só funciona em HTTPS
-                    sameSite: isdev ? 'lax' : "lax",           // ❌ se for "lax" ou "strict", o cookie não vai entre domínios
-                    maxAge: 60 * 60,            // 1h
+                    sameSite: isdev ? 'lax' : "none",           // ❌ se for "lax" ou "strict", o cookie não vai entre domínios
+                    maxAge: 60 * 60,  
+                    domain: '.animepass.vercel.app',  // 1h
                     path: "/",
                 })
                 .status(200)
