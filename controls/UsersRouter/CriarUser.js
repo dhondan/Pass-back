@@ -34,7 +34,7 @@ export async function CriarUser(server, opts) {
         const newPassword = bcrypt.hashSync(password, 10);
         const id = randomUUID();
 
-          const isdev = process.env.DEV === "true";
+        const isdev = process.env.DEV === "true";
 
         try {
             await sql`
@@ -46,10 +46,10 @@ export async function CriarUser(server, opts) {
 
             return reply
                 .setCookie("token", token, {
-                    httpOnly: false,
-                    secure: false,               
-                   sameSite: isdev ? 'lex' : "none",      
-                    maxAge: 60 * 60, 
+                    httpOnly: true,
+                    secure: !isdev,               // ✅ só funciona em HTTPS
+                    sameSite: isdev ? 'lax' : "none",           // ❌ se for "lax" ou "strict", o cookie não vai entre domínios
+                    maxAge: 60 * 60,            // 1h
                     path: "/",
                 })
                 .status(200)

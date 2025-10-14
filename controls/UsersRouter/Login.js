@@ -33,8 +33,8 @@ export async function Login(server, opts) {
 
       return reply
         .setCookie("token", token, {
-          httpOnly: false,
-          secure: false,               // ✅ só funciona em HTTPS
+          httpOnly: true,
+          secure: !isdev,               // ✅ só funciona em HTTPS
           sameSite: isdev ? 'lax' : "none",           // ❌ se for "lax" ou "strict", o cookie não vai entre domínios
           maxAge: 60 * 60,            // 1h
           path: "/",
