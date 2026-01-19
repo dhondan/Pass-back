@@ -3,6 +3,7 @@ import { sql } from "../../../db.js"
 import admin from 'firebase-admin';
 import { app as firebaseApp } from '../../util/firebase.js';
 
+//descontinuado por enquanto
 const firebaseDB = admin.firestore();
 
 export async function LikeComentario(server, opts) {

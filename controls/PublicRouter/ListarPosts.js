@@ -19,79 +19,119 @@ export async function ListarPosts(server, opts) {
 
       let posts;
 
+      // 1️⃣ Post mais curtido
+      const [mostLiked] = await sql`
+  SELECT post_id
+  FROM like_posts
+  GROUP BY post_id
+  ORDER BY COUNT(*) DESC
+  LIMIT 1
+`;
+
+      const mostLikedPostId = mostLiked?.post_id || null;
+
+
       // 🔹 Monta condição dinâmica
       if (Userid && search) {
         posts = await sql`
-          SELECT 
-            p.id, 
-            p.title, 
-            p.image, 
-            p.type, 
-            p.genre, 
-            p.user_id, 
-            p.created_at,
-            u.name as user_name,
-            u.image_profile as user_avatar
-          FROM posts p
-          JOIN users u ON p.user_id = u.id
-          WHERE p.user_id = ${Userid}
-          AND (p.title ILIKE ${'%' + search + '%'} OR p.genre ILIKE ${'%' + search + '%'})
-          ORDER BY p.created_at DESC
-          LIMIT ${limit} OFFSET ${offset}
-        `;
+    SELECT 
+      p.id, 
+      p.title, 
+      p.image, 
+      p.type, 
+      p.genre, 
+      p.user_id, 
+      p.created_at,
+      u.name as user_name,
+      u.image_profile as user_avatar,
+      COUNT(lp.post_id)::int AS likes,
+       CASE 
+      WHEN p.id = ${mostLikedPostId} THEN true
+      ELSE false
+    END AS destaque
+    FROM posts p
+    JOIN users u ON p.user_id = u.id
+    LEFT JOIN like_posts lp ON lp.post_id = p.id
+    WHERE p.user_id = ${Userid}
+    AND (p.title ILIKE ${'%' + search + '%'} OR p.genre ILIKE ${'%' + search + '%'})
+    GROUP BY p.id, u.id
+    ORDER BY p.created_at DESC
+    LIMIT ${limit} OFFSET ${offset}
+  `;
       } else if (Userid) {
         posts = await sql`
-          SELECT 
-            p.id, 
-            p.title, 
-            p.image, 
-            p.type, 
-            p.genre, 
-            p.user_id, 
-            p.created_at,
-            u.name as user_name,
-            u.image_profile as user_avatar
-          FROM posts p
-          JOIN users u ON p.user_id = u.id
-          WHERE p.user_id = ${Userid}
-          ORDER BY p.created_at DESC
-          LIMIT ${limit} OFFSET ${offset}
-        `;
+    SELECT 
+      p.id, 
+      p.title, 
+      p.image, 
+      p.type, 
+      p.genre, 
+      p.user_id, 
+      p.created_at,
+      u.name as user_name,
+      u.image_profile as user_avatar,
+      COUNT(lp.post_id)::int AS likes,
+       CASE 
+      WHEN p.id = ${mostLikedPostId} THEN true
+      ELSE false
+    END AS destaque
+    FROM posts p
+    JOIN users u ON p.user_id = u.id
+    LEFT JOIN like_posts lp ON lp.post_id = p.id
+    WHERE p.user_id = ${Userid}
+    GROUP BY p.id, u.id
+    ORDER BY p.created_at DESC
+    LIMIT ${limit} OFFSET ${offset}
+  `;
       } else if (search) {
         posts = await sql`
-          SELECT 
-            p.id, 
-            p.title, 
-            p.image, 
-            p.type, 
-            p.genre, 
-            p.user_id, 
-            p.created_at,
-            u.name as user_name,
-            u.image_profile as user_avatar
-          FROM posts p
-          JOIN users u ON p.user_id = u.id
-          WHERE (p.title ILIKE ${'%' + search + '%'} OR p.genre ILIKE ${'%' + search + '%'})
-          ORDER BY p.created_at DESC
-          LIMIT ${limit} OFFSET ${offset}
-        `;
+    SELECT 
+      p.id, 
+      p.title, 
+      p.image, 
+      p.type, 
+      p.genre, 
+      p.user_id, 
+      p.created_at,
+      u.name as user_name,
+      u.image_profile as user_avatar,
+      COUNT(lp.post_id)::int AS likes,
+       CASE 
+      WHEN p.id = ${mostLikedPostId} THEN true
+      ELSE false
+    END AS destaque
+    FROM posts p
+    JOIN users u ON p.user_id = u.id
+    LEFT JOIN like_posts lp ON lp.post_id = p.id
+    WHERE (p.title ILIKE ${'%' + search + '%'} OR p.genre ILIKE ${'%' + search + '%'})
+    GROUP BY p.id, u.id
+    ORDER BY p.created_at DESC
+    LIMIT ${limit} OFFSET ${offset}
+  `;
       } else {
         posts = await sql`
-          SELECT 
-            p.id, 
-            p.title, 
-            p.image, 
-            p.type, 
-            p.genre, 
-            p.user_id, 
-            p.created_at,
-            u.name as user_name,
-            u.image_profile as user_avatar
-          FROM posts p
-          JOIN users u ON p.user_id = u.id
-          ORDER BY p.created_at DESC
-          LIMIT ${limit} OFFSET ${offset}
-        `;
+    SELECT 
+      p.id, 
+      p.title, 
+      p.image, 
+      p.type, 
+      p.genre, 
+      p.user_id, 
+      p.created_at,
+      u.name as user_name,
+      u.image_profile as user_avatar,
+      COUNT(lp.post_id)::int AS likes,
+       CASE 
+      WHEN p.id = ${mostLikedPostId} THEN true
+      ELSE false
+    END AS destaque
+    FROM posts p
+    JOIN users u ON p.user_id = u.id
+    LEFT JOIN like_posts lp ON lp.post_id = p.id
+    GROUP BY p.id, u.id
+    ORDER BY p.created_at DESC
+    LIMIT ${limit} OFFSET ${offset}
+  `;
       }
 
       // 🔹 Total de posts (para paginação)

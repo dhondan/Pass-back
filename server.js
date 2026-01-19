@@ -17,10 +17,13 @@ import { ListarComentarios } from './controls/PublicRouter/ListarComentarios.js'
 import { ListarRespostas } from './controls/PublicRouter/ListarRespostasComentarios.js'
 import { TokenValidation } from './controls/UsersRouter/TokenValidation.js'
 
+
 //posts
 import { registerView } from './controls/PostsRouter/functions/registerView.js'
 import { LikePost } from './controls/PostsRouter/posts/LikePost.js'
 import { getLikePost } from './controls/PublicRouter/GetLikePost.js'
+import { MyLike } from './controls/PostsRouter/posts/MyLike.js'
+
 //comments
 import { LikeComentario } from './controls/PostsRouter/comments/LikeComentario.js'
 import { GetPublicUser } from './controls/PublicRouter/GetPublicUser.js'
@@ -105,7 +108,8 @@ server.register(ListarComentarios)
 //valida token
 server.register(TokenValidation)
 
-//funções posts
+//Verifica se existe um like para aquele post
+server.register(MyLike)
 
 //registrar visualização
 server.register(registerView)
