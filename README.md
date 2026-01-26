@@ -161,7 +161,7 @@ FIREBASE_URL=""
 
 DEV="true"
 ```
-##🧾 Explicação rápida das variáveis
+## 🧾 Explicação rápida das variáveis
 
 * PGHOST → Host do banco PostgreSQL (Neon)
 
@@ -190,7 +190,11 @@ DEV="true"
 * DEV → Define se o ambiente está em modo desenvolvimento
 
 ### Lembre-se de aplicar as informações do DB onde você vai guardar as informações
-<img width="1508" height="516" alt="image" src="https://github.com/user-attachments/assets/46b79f0e-aec2-4ce7-8dbc-f0ce586e0d84" />
+<img width="1545" height="878" alt="image" src="https://github.com/user-attachments/assets/8fa99d08-198a-4cc6-b49b-5c08b29f75f9" />
+
+## Regras para um bom funcionamento
+* A variavel `"dev"` sempre deve ser false em caso de produto e sempre `"true"` em desenvolvimento
+* Coloque sempre um Json na variavel `"FIREBASE_CONFIG="` 
 
 ### 🔗 Onde conseguir essas informações
 
