@@ -122,9 +122,78 @@ Este backend foi pensado para:
 
 ---
 
+---
+
 ## ▶️ Como Rodar o Projeto
 
-1. Instale as dependências:
+### 📄 Configuração do arquivo `.env`
+
+Para o funcionamento correto do backend, **é obrigatório** criar um arquivo `.env` na raiz do projeto com **todas as variáveis abaixo**.
+
+```env
+PGHOST=""
+PGDATABASE=""
+PGUSER=""
+PGPASSWORD=""
+PGSSLMODE="require"
+PGCHANNELBINDING=""
+
+PORT=""
+HOST=""
+
+SECRETKEY=""
+ROTA=""
+
+FIREBASE_CONFIG='{
+  "type": "",
+  "project_id": "",
+  "private_key_id": "",
+  "private_key": "",
+  "client_id": "",
+  "auth_uri": "",
+  "token_uri": "",
+  "auth_provider_x509_cert_url": "",
+  "client_x509_cert_url": "",
+  "universe_domain": ""
+}'
+
+TYPE=""
+PROJECT_ID=""
+PRIVATE_KEY_ID=""
+PRIVATE_KEY=""
+CLIENT_ID=""
+AUTH_URI=""
+TOKEN_URI=""
+AUTH_PROVIDER_X509_CERT_URL=""
+UNIVERSE_DOMAIN=""
+
+FIREBASE_URL=""
+
+# Neon exige ambiente de produção
+NODE_ENV="production"
+
+DEV="true"
+```
+
+### 🔗 Onde conseguir essas informações
+
+#### 🟦 Neon (PostgreSQL)
+
+* Acesse: **[https://neon.tech](https://neon.tech)**
+* Crie um projeto
+* Copie as credenciais de conexão
+* Preencha: `PGHOST`, `PGDATABASE`, `PGUSER`, `PGPASSWORD`
+* Utilize **NODE_ENV=production** (obrigatório no Neon)
+
+#### 🔥 Firebase
+
+* Acesse: **[https://console.firebase.google.com](https://console.firebase.google.com)**
+* Crie um projeto
+* Vá em **Configurações do Projeto → Contas de serviço**
+* Gere uma **chave privada**
+* Use os dados no `FIREBASE_CONFIG` ou nas variáveis separadas
+
+### ▶️ Iniciar o servidor
 
 ```bash
 npm install
@@ -137,13 +206,6 @@ SECRETKEY=suachavesecreta
 DATABASE_URL=postgres_neon_url
 FIREBASE_KEY=chave_firebase
 ```
-
-3. Inicie o servidor:
-
-```bash
-node server.js
-```
-
 ---
 
 ## 📌 Observações Finais
