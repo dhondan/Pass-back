@@ -141,7 +141,7 @@ PGCHANNELBINDING=""
 PORT=""
 HOST=""
 
-SECRETKEY=""
+SECRETKEY="" --chave secreta de criptografia para todo seu back
 ROTA=""
 
 FIREBASE_CONFIG='{
@@ -157,29 +157,46 @@ FIREBASE_CONFIG='{
   "universe_domain": ""
 }'
 
-TYPE=""
-PROJECT_ID=""
-PRIVATE_KEY_ID=""
-PRIVATE_KEY=""
-CLIENT_ID=""
-AUTH_URI=""
-TOKEN_URI=""
-AUTH_PROVIDER_X509_CERT_URL=""
-UNIVERSE_DOMAIN=""
-
 FIREBASE_URL=""
-
-# Neon exige ambiente de produção
-NODE_ENV="production"
 
 DEV="true"
 ```
+###🧾 Explicação rápida das variáveis
+
+* PGHOST → Host do banco PostgreSQL (Neon)
+
+* PGDATABASE → Nome do banco de dados
+
+* PGUSER → Usuário do banco
+
+* PGPASSWORD → Senha do banco
+
+* PGSSLMODE → Modo SSL (obrigatório no Neon)
+
+* PGCHANNELBINDING → Configuração extra de segurança do PostgreSQL
+
+* PORT → Porta onde o servidor vai rodar
+
+* HOST → Host do servidor (ex: localhost)
+
+* SECRETKEY → Chave secreta usada para criptografia e JWT em todo o backend
+
+* ROTA → Rota base ou identificador interno do sistema
+
+* FIREBASE_CONFIG → Credenciais do Firebase (JSON da conta de serviço)
+
+* FIREBASE_URL → URL do Firebase Realtime Database ou Firestore
+
+* DEV → Define se o ambiente está em modo desenvolvimento
+
+### Lembre-se de aplicar as informações do DB onde você vai guardar as informações
+<img width="1508" height="516" alt="image" src="https://github.com/user-attachments/assets/46b79f0e-aec2-4ce7-8dbc-f0ce586e0d84" />
 
 ### 🔗 Onde conseguir essas informações
 
 #### 🟦 Neon (PostgreSQL)
 
-* Acesse: **[https://neon.tech](https://neon.tech)**
+* Acesse: **[https://neon.tech](https://neon.tech)** `apenas como exemplo, mas você pode usar qualquer um`
 * Crie um projeto
 * Copie as credenciais de conexão
 * Preencha: `PGHOST`, `PGDATABASE`, `PGUSER`, `PGPASSWORD`
