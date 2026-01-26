@@ -161,40 +161,13 @@ FIREBASE_URL=""
 
 DEV="true"
 ```
-## 🧾 Explicação rápida das variáveis
-
-* PGHOST → Host do banco PostgreSQL (Neon)
-
-* PGDATABASE → Nome do banco de dados
-
-* PGUSER → Usuário do banco
-
-* PGPASSWORD → Senha do banco
-
-* PGSSLMODE → Modo SSL (obrigatório no Neon)
-
-* PGCHANNELBINDING → Configuração extra de segurança do PostgreSQL
-
-* PORT → Porta onde o servidor vai rodar
-
-* HOST → Host do servidor (ex: localhost)
-
-* SECRETKEY → Chave secreta usada para criptografia e JWT em todo o backend
-
-* ROTA → Rota base ou identificador interno do sistema
-
-* FIREBASE_CONFIG → Credenciais do Firebase (JSON da conta de serviço)
-
-* FIREBASE_URL → URL do Firebase Realtime Database ou Firestore
-
-* DEV → Define se o ambiente está em modo desenvolvimento
-
 ### Lembre-se de aplicar as informações do DB onde você vai guardar as informações
 <img width="1545" height="878" alt="image" src="https://github.com/user-attachments/assets/8fa99d08-198a-4cc6-b49b-5c08b29f75f9" />
 
 ## Regras para um bom funcionamento
-* A variavel `"dev"` sempre deve ser false em caso de produto e sempre `"true"` em desenvolvimento
-* Coloque sempre um Json na variavel `"FIREBASE_CONFIG="` 
+* A variavel `"dev"` deve ser sempre `"false"` em caso de `produção` e sempre `"true"` em `desenvolvimento`
+* Coloque sempre um Json na variavel `"FIREBASE_CONFIG="`
+* Rota é o seu dominio do Font-end, é onde o `CORS` vai conseguir identificar o seu site.
 
 ### 🔗 Onde conseguir essas informações
 
