@@ -47,7 +47,6 @@ Utilizado como **banco principal**, armazenando:
 * Usuários
 * Posts
 * Likes de posts (em tabela separada)
-* Estatísticas
 
 👉 **Like de posts em tabela separada**: decisão tomada para melhorar consultas, evitar duplicidade e escalar melhor o sistema.
 
@@ -65,9 +64,7 @@ Eles são armazenados no **Firebase**, o que traz vantagens como:
 📌 O Firebase é usado **exclusivamente** para:
 
 * Comentários
-* Respostas de comentários
-* Likes em comentários
-
+  
 ---
 
 ## 🧩 Rotas Principais
@@ -87,20 +84,16 @@ Eles são armazenados no **Firebase**, o que traz vantagens como:
 * Deletar post
 * Listar posts
 * Visualizar post
-* Registrar visualizações
 
 ### ❤️ Likes
 
 * Like/unlike em posts
 * Ver posts curtidos
-* Estatísticas de likes
 
 ### 💬 Comentários (Firebase)
 
 * Criar comentário
-* Curtir comentário
 * Listar comentários
-* Respostas encadeadas
 
 ---
 
