@@ -161,7 +161,7 @@ FIREBASE_URL=""
 
 DEV="true"
 ```
-###🧾 Explicação rápida das variáveis
+##🧾 Explicação rápida das variáveis
 
 * PGHOST → Host do banco PostgreSQL (Neon)
 
