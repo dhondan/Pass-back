@@ -6,8 +6,16 @@ import { Domain } from "node:domain";
 dotenv.config();
 
 export async function CriarUser(server, opts) {
-    server.post('/createUser', async (request, reply) => {
-        const { name, email, password, passwordConfirmation } = request.body;
+
+    server.post('/createUser', {
+    config: {
+      rateLimit: {
+        max: 5,
+        timeWindow: '1 minute'
+      }
+    }
+  }, async (request, reply) => {
+      const { name, email, password, passwordConfirmation } = request.body;
 
         // Validações
         if (!name || name.trim().length < 3) {
@@ -65,5 +73,7 @@ export async function CriarUser(server, opts) {
             console.error(err);
             return reply.status(500).send({ error: "Erro ao criar usuário." });
         }
-    });
+  });
 }
+
+  

@@ -17,7 +17,6 @@ import { ListarComentarios } from './controls/PublicRouter/ListarComentarios.js'
 import { ListarRespostas } from './controls/PublicRouter/ListarRespostasComentarios.js'
 import { TokenValidation } from './controls/UsersRouter/TokenValidation.js'
 
-
 //posts
 import { registerView } from './controls/PostsRouter/functions/registerView.js'
 import { LikePost } from './controls/PostsRouter/posts/LikePost.js'
@@ -28,33 +27,34 @@ import { MyLike } from './controls/PostsRouter/posts/MyLike.js'
 import { LikeComentario } from './controls/PostsRouter/comments/LikeComentario.js'
 import { GetPublicUser } from './controls/PublicRouter/GetPublicUser.js'
 
-
-
+//plugins
 import cors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
 import rateLimit from '@fastify/rate-limit'
 
-const server = Fastify()
+const server = Fastify({ trustProxy: true });
 
 server.register(fastifyCookie);
 
 server.register(rateLimit, {
-    max: 1000000,
-    timeWindow: '1 minute'
-})
+  max: 100, // 100 requisições
+  timeWindow: '1 minute',
+  allowList: ['127.0.0.1'], 
+  ban: 3
+});
+
+
 
 server.register(fastifyJwt, {
     secret: process.env.SECRETKEY // troque por variável de ambiente
 });
 
-
-
-// server.addHook('preHandler', (request, reply, done) => {
-//     const maxsize = 500 * 1024;
-//     if (request.raw.socket.bytesRead > maxsize) {
-//         return reply.status(413).send({ error: 'erro interno' });
-//     }
-// })
+server.addHook('preHandler', (request, reply, done) => {
+     const maxsize = 500 * 1024;
+     if (request.raw.socket.bytesRead > maxsize) {
+        return reply.status(413).send({ error: 'erro interno' });
+     }
+ })
 
 server.addHook("preHandler", async (request, reply) => {
 
@@ -145,7 +145,6 @@ server.register(GetUser)
 
 
 // Iniciar o servidor
-
 server.listen({ host: process.env.HOST || '0.0.0.0',   port: process.env.PORT || 3333 })
 
 

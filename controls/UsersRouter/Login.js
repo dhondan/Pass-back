@@ -4,7 +4,15 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export async function Login(server, opts) {
-  server.post("/login", async (request, reply) => {
+
+  server.post('/login', {
+    config: {
+      rateLimit: {
+        max: 5,
+        timeWindow: '1 minute'
+      }
+    }
+  }, async (request, reply) => {
     try {
       const { email, password } = request.body;
 
@@ -52,3 +60,5 @@ export async function Login(server, opts) {
     }
   });
 }
+
+ 
