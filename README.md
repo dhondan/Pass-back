@@ -5,7 +5,11 @@ Este repositório contém o **backend completo** da aplicação, desenvolvido co
 O projeto utiliza **Fastify** como servidor HTTP, **JWT** para autenticação, **Neon (PostgreSQL)** como banco de dados principal e **Firebase** especificamente para o gerenciamento de comentários, garantindo maior performance e flexibilidade.
 
 ---
+## 🧱 Eu criei um site e estou utilizando essa estrutura
+* Site: https://superpass-wine.vercel.app/
+* Projeto do site: https://github.com/dhondan/superpass
 
+---
 ## 🧱 Tecnologias Utilizadas
 
 * **Node.js**
