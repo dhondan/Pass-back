@@ -36,11 +36,11 @@ const server = Fastify({ trustProxy: true });
 
 server.register(fastifyCookie);
 
-server.register(rateLimit, {
-  max: 100, // 100 requisições
-  timeWindow: '1 minute',
-  ban: 3
-});
+// server.register(rateLimit, {
+//   max: 100, // 100 requisições
+//   timeWindow: '1 minute',
+//   ban: 3
+// });
 
 
 
@@ -145,5 +145,7 @@ server.register(GetUser)
 
 // Iniciar o servidor
 server.listen({ host: process.env.HOST || '0.0.0.0',   port: process.env.PORT || 3333 })
+.then(() => console.log('🔥 SERVER ONLINE NA PORTA 3333'))
+.catch(err => console.error(err))
 
 
