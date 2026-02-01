@@ -43,17 +43,16 @@ server.register(fastifyCookie);
 // });
 
 
-
 server.register(fastifyJwt, {
     secret: process.env.SECRETKEY // troque por variável de ambiente
 });
 
-server.addHook('preHandler', (request, reply, done) => {
-     const maxsize = 500 * 1024;
-     if (request.raw.socket.bytesRead > maxsize) {
-        return reply.status(413).send({ error: 'erro interno' });
-     }
- })
+// server.addHook('preHandler', (request, reply, done) => {
+//      const maxsize = 500 * 1024;
+//      if (request.raw.socket.bytesRead > maxsize) {
+//         return reply.status(413).send({ error: 'erro interno' });
+//      }
+//  })
 
 server.addHook("preHandler", async (request, reply) => {
 
@@ -82,7 +81,6 @@ console.log(token)
         return reply.status(401).send({ error: err });
     }
 })
-
 
 server.register(cors, {
   origin: process.env.ROTA || 'http://localhost:3000/',
@@ -127,7 +125,6 @@ server.register(ListarRespostas)
 server.register(GetPublicUser)
 
 
-
 // Criar User
 server.register(CriarUser)
 // Editar user
@@ -140,8 +137,6 @@ server.register(GetUserInfo)
 server.register(Logout)
 //Pega informações públicas do usuario
 server.register(GetUser)
-
-
 
 // Iniciar o servidor
 server.listen({ host: process.env.HOST || '0.0.0.0',   port: process.env.PORT || 3333 })
