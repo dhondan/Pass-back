@@ -39,7 +39,6 @@ server.register(fastifyCookie);
 server.register(rateLimit, {
   max: 100, // 100 requisições
   timeWindow: '1 minute',
-  allowList: ['127.0.0.1'], 
   ban: 3
 });
 
