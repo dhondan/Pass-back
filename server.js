@@ -36,11 +36,11 @@ const server = Fastify({ trustProxy: true });
 
 server.register(fastifyCookie);
 
-// server.register(rateLimit, {
-//   max: 100, // 100 requisições
-//   timeWindow: '1 minute',
-//   ban: 3
-// });
+ server.register(rateLimit, {
+   max: 100, // 100 requisições
+   timeWindow: '1 minute',
+   ban: 3
+ });
 
 
 server.register(fastifyJwt, {
